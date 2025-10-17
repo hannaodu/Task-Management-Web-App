@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+     <html lang="en">
+     <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Task Manager</title>
+         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+     </head>
+     <body>
+         <nav>
+             <h1>Task Manager</h1>
+             {% if current_user.is_authenticated %}
+                 <p>Welcome, {{ current_user.username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
+             {% else %}
+                 <p><a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a></p>
+             {% endif %}
+         </nav>
+         <div class="container">
+             {% with messages = get_flashed_messages() %}
+                 {% if messages %}
+                     <ul>
+                         {% for message in messages %}
+                             <li>{{ message }}</li>
+                         {% endfor %}
+                     </ul>
+                 {% endif %}
+             {% endwith %}
+             {% block content %}{% endblock %}
+         </div>
+     </body>
+     </html>
